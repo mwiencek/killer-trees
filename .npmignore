@@ -1,0 +1,11 @@
+*.code-workspace
+.flowconfig
+.github/
+.yarn/
+.yarnrc.yml
+benchmark/
+CHANGELOG.md
+coverage/
+eslint.config.js
+run_tests.sh
+test/

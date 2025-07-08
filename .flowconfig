@@ -1,0 +1,13 @@
+[ignore]
+*.d.ts
+
+[include]
+
+[libs]
+
+[lints]
+all=error
+
+[options]
+
+[strict]

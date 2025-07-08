@@ -1,0 +1,42 @@
+// @flow strict
+
+export const oneHundredNines/*: string */ = '9'.repeat(100);
+export const oneHundredNinesMinus1/*: string */ = '9'.repeat(99) + '8';
+
+export const EXOTIC_VALUES/*: $ReadOnlyArray<mixed>*/ = [
+  false,
+  true,
+  -Infinity,
+  -Number.MAX_VALUE,
+  Number.MIN_SAFE_INTEGER,
+  -Number.EPSILON,
+  -Number.MIN_VALUE,
+  0,
+  Number.MIN_VALUE,
+  Number.EPSILON,
+  Number.MAX_SAFE_INTEGER,
+  Number.MAX_VALUE,
+  Infinity,
+  NaN,
+  -BigInt(oneHundredNines),
+  -BigInt(oneHundredNinesMinus1),
+  BigInt(oneHundredNinesMinus1),
+  BigInt(oneHundredNines),
+  '',
+  oneHundredNinesMinus1,
+  oneHundredNines,
+  Symbol(),
+  Symbol(oneHundredNines),
+  () => {},
+  [],
+  {},
+  Object.create(null),
+  new Set/*:: <mixed> */([]),
+  new Map/*:: <mixed, mixed> */([]),
+  new WeakMap/*:: <interface {}, mixed> */([]),
+  Set,
+  Map,
+  WeakMap,
+  null,
+  undefined,
+];

@@ -1,0 +1,31 @@
+export type SetUpdateOptions<T, K> = {
+  key: K;
+  cmp: (key: K, treeValue: T) => number;
+  isEqual?: (a: T, b: T) => boolean;
+  onConflict?: (existingValue: T, key: K) => T | symbol;
+  onNotFound?: (key: K) => T | symbol;
+};
+
+declare class KtSet<T> {
+  constructor(values?: Iterable<T>);
+
+  readonly size: number;
+
+  [Symbol.iterator](): Generator<T, void, void>;
+  values(): Generator<T, void, void>;
+  equals(set: KtSet<T>, isEqual?: (a: T, b: T) => boolean): boolean;
+  has(value: T): boolean;
+  add(value: T): KtSet<T>;
+  update<K>(options: SetUpdateOptions<T, K>): KtSet<T>;
+  remove(value: T): KtSet<T>;
+  toArray(): Array<T>;
+  toJSON(): Array<T>;
+  union(set: KtSet<T>): KtSet<T>;
+  intersection(set: KtSet<T>): KtSet<T>;
+  difference(set: KtSet<T>): KtSet<T>;
+  symmetricDifference(set: KtSet<T>): KtSet<T>;
+  isSubsetOf(set: KtSet<T>): boolean;
+  isSupersetOf(set: KtSet<T>): boolean;
+}
+
+export default KtSet;
