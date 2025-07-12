@@ -13,7 +13,9 @@ import KtCollection from './Collection.js';
 import {compareStrings} from './utility/compareValues.js';
 
 /*::
-export type KtRecordInstance<T: {...}> = KtRecord<T> & $ReadOnly<T>;
+export type KtRecordInstance<T> = T extends KtRecord<infer D>
+  ? (KtRecord<D> & $ReadOnly<D>)
+  : empty;
 */
 
 const RECORD_SYMBOL = Symbol.for('KtRecord');
@@ -97,7 +99,7 @@ export default class KtRecord/*:: <T: {...}> */
     return Record;
   }
 
-  static instance(object/*:: ?: Partial<T> */)/*: KtRecordInstance<T> */ {
+  static instance(object/*:: ?: Partial<T> */)/*: KtRecord<T> & $ReadOnly<T> */ {
     // $FlowIgnore[incompatible-return]
     return new this(object);
   }
