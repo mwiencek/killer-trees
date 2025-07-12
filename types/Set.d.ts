@@ -24,6 +24,7 @@ declare class KtSet<T> {
   intersection(set: KtSet<T>): KtSet<T>;
   difference(set: KtSet<T>): KtSet<T>;
   symmetricDifference(set: KtSet<T>): KtSet<T>;
+  isDisjointFrom(set: KtSet<T>): boolean;
   isSubsetOf(set: KtSet<T>): boolean;
   isSupersetOf(set: KtSet<T>): boolean;
 }
