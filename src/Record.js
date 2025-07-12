@@ -13,7 +13,7 @@ import KtCollection from './Collection.js';
 import {compareStrings} from './utility/compareValues.js';
 
 /*::
-type KtRecordInstance<T: {...}> = KtRecord<T> & $ReadOnly<T>;
+export type KtRecordInstance<T: {...}> = KtRecord<T> & $ReadOnly<T>;
 */
 
 const RECORD_SYMBOL = Symbol.for('KtRecord');

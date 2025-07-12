@@ -1,3 +1,5 @@
+export type KtRecordInstance<T: object> = KtRecord<T> & Readonly<T>;
+
 declare class KtRecord<T extends object> {
   constructor(object?: Partial<T>);
 
