@@ -6,6 +6,7 @@ import {
   fromDistinctAscArray,
   setIndex,
   toArray,
+  updateIndex,
   /*:: type ImmutableTree, */
 } from 'weight-balanced-tree';
 
@@ -147,6 +148,21 @@ export default class KtRecord/*:: <T: interface {}> */
       object[key] = values[keyIndex[key]];
     }
     return object;
+  }
+
+  update/*:: <K: $Keys<T>> */(
+    key/*: K */,
+    updater/*: (existingValue: T[K]) => T[K] */,
+  )/*: this & $ReadOnly<T> */ {
+    // $FlowIgnore[incompatible-return]
+    return this._newIfChanged(
+      updateIndex(
+        this._tree,
+        this.constructor._getIndexForKey(key),
+        // $FlowIgnore[incompatible-call]
+        updater,
+      ),
+    );
   }
 
   remove(key/*: $Keys<T> */)/*: this & $ReadOnly<T> */ {

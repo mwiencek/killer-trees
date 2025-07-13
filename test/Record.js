@@ -99,6 +99,30 @@ test('set', () => {
   });
 });
 
+test('update', () => {
+  const r1 = new TestRecord();
+  const updater = (defaultValue/*: string */) => defaultValue + 'bar';
+  const r2 = r1.update('foo', updater);
+  assert.equal(r1.foo, '');
+  assert.equal(r2.foo, 'bar');
+  assert.notEqual(r1, r2);
+
+  const r3 = r2.update('foo', () => 'bar');
+  assert.equal(r2, r3);
+
+  const r4 = r2.update('foo', updater);
+  assert.equal(r4.foo, 'barbar');
+  assert.notEqual(r2, r4);
+
+  assert.throws(() => {
+    // $FlowIgnore[incompatible-call]
+    r1.set('unknown', 'value');
+  }, {
+    name: 'Error',
+    message: 'Undefined record key "unknown".',
+  });
+});
+
 test('equals', () => {
   const r1 = new TestRecord({foo: 'bar'});
   const r2 = new TestRecord({foo: 'bar'});

@@ -10,6 +10,10 @@ declare class KtRecord<T extends object> {
   get<K extends keyof T>(key: K): T[K];
   merge(object: Partial<T>): this & Readonly<T>;
   set<K extends keyof T>(key: K, value: T[K]): this & Readonly<T>;
+  update<K extends keyof T>(
+    key: K,
+    updater: (existingValue: T[K]) => T[K],
+  ): this & Readonly<T>;
   toJSON(): T;
   remove(key: keyof T): this & Readonly<T>;
 }
