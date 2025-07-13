@@ -190,7 +190,7 @@ export default class KtMap/*:: <K, V> */
     return exists(this._tree, key, compareKeyWithMapEntry);
   }
 
-  set(key/*: K */, value/*: V */)/*: KtMap<K, V> */ {
+  set(key/*: K */, value/*: V */)/*: this */ {
     return this._newIfChanged(
       update(this._tree, {
         key: {key, value},
@@ -208,7 +208,7 @@ export default class KtMap/*:: <K, V> */
       entry1: MapEntry<K, V>,
       entry2: MapEntry<K, V>,
     ) => MapEntry<K, V> */ = mergeCombiner,
-  )/*: KtMap<K, V> */ {
+  )/*: this */ {
     return this._newIfChanged(
       union(
         this._tree,
@@ -222,7 +222,7 @@ export default class KtMap/*:: <K, V> */
   update(key/*: K */, {
     onConflict = onConflictKeepTreeValue,
     onNotFound = onNotFoundDoNothing,
-  }/*: MapUpdateOptions<K, V> */)/*: KtMap<K, V> */ {
+  }/*: MapUpdateOptions<K, V> */)/*: this */ {
     return this._newIfChanged(
       update(this._tree, {
         key,
@@ -234,7 +234,7 @@ export default class KtMap/*:: <K, V> */
     );
   }
 
-  remove(key/*: K */)/*: KtMap<K, V> */ {
+  remove(key/*: K */)/*: this */ {
     return this._newIfChanged(
       remove(
         this._tree,

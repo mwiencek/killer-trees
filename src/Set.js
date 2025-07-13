@@ -103,7 +103,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     );
   }
 
-  add(value/*: T */)/*: KtSet<T> */ {
+  add(value/*: T */)/*: this */ {
     return this._newIfChanged(this.constructor._add(this._tree, value));
   }
 
@@ -114,7 +114,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     isEqual = Object.is,
     onConflict = onConflictKeepTreeValue,
     onNotFound = onNotFoundDoNothing,
-  }/*: SetUpdateOptions<T, K> */)/*: KtSet<T> */ {
+  }/*: SetUpdateOptions<T, K> */)/*: this */ {
     let replacement/*: {+valueToInsert: T} | null */ = null;
     let values = update/*:: <T, K> */(this._tree, {
       key,
@@ -140,7 +140,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this._newIfChanged(values);
   }
 
-  remove(value/*: T */)/*: KtSet<T> */ {
+  remove(value/*: T */)/*: this */ {
     return this._newIfChanged(
       remove(
         this._tree,
@@ -158,7 +158,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this.toArray();
   }
 
-  union(set/*: KtSet<T> */)/*: KtSet<T> */ {
+  union(set/*: KtSet<T> */)/*: this */ {
     return this._newIfChanged(
       union(
         this._tree,
@@ -169,7 +169,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     );
   }
 
-  intersection(set/*: KtSet<T> */)/*: KtSet<T> */ {
+  intersection(set/*: KtSet<T> */)/*: this */ {
     return this._newIfChanged(
       intersection(
         this._tree,
@@ -179,7 +179,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     );
   }
 
-  difference(set/*: KtSet<T> */)/*: KtSet<T> */ {
+  difference(set/*: KtSet<T> */)/*: this */ {
     return this._newIfChanged(
       difference(
         this._tree,
@@ -189,7 +189,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     );
   }
 
-  symmetricDifference(set/*: KtSet<T> */)/*: KtSet<T> */ {
+  symmetricDifference(set/*: KtSet<T> */)/*: this */ {
     return this._newIfChanged(
       symmetricDifference(
         this._tree,

@@ -61,7 +61,7 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return at(this._tree, index, defaultValue);
   }
 
-  concat(list/*: KtList<T> */)/*: KtList<T> */ {
+  concat(list/*: KtList<T> */)/*: this */ {
     return this._newIfChanged(join2(this._tree, list._tree));
   }
 
@@ -73,7 +73,7 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return equals(this._tree, list._tree, isEqual);
   }
 
-  filter(predicate/*: (value: T) => boolean */)/*: KtList<T> */ {
+  filter(predicate/*: (value: T) => boolean */)/*: this */ {
     return this._newIfChanged(filter(this._tree, predicate));
   }
 
@@ -82,7 +82,7 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this.constructor._new(map(this._tree, mapper));
   }
 
-  pop()/*: {list: KtList<T>, value: T | void} */ {
+  pop()/*: {+list: this, +value: T | void} */ {
     if (this._tree.size === 0) {
       return {list: this, value: undefined};
     }
@@ -90,7 +90,7 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return {list: this._newIfChanged(items), value};
   }
 
-  push(...values/*: $ReadOnlyArray<T> */)/*: KtList<T> */ {
+  push(...values/*: $ReadOnlyArray<T> */)/*: this */ {
     let items = this._tree;
     if (values.length === 1) {
       items = join(items, values[0], empty);
@@ -100,11 +100,11 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this._newIfChanged(items);
   }
 
-  set(index/*: number */, value/*: T */)/*: KtList<T> */ {
+  set(index/*: number */, value/*: T */)/*: this */ {
     return this._newIfChanged(setIndex(this._tree, index, value));
   }
 
-  shift()/*: {list: KtList<T>, value: T | void} */ {
+  shift()/*: {+list: this, +value: T | void} */ {
     if (this._tree.size === 0) {
       return {list: this, value: undefined};
     }
@@ -112,7 +112,7 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return {list: this._newIfChanged(items), value};
   }
 
-  slice(start/*:: ?: number */, end/*:: ?: number */)/*: KtList<T> */ {
+  slice(start/*:: ?: number */, end/*:: ?: number */)/*: this */ {
     return this._newIfChanged(slice(this._tree, start, end));
   }
 
@@ -120,7 +120,7 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     start/*: number */,
     deleteCount/*: number */,
     ...values/*: $ReadOnlyArray<T> */
-  )/*: {list: KtList<T>, deleted: KtList<T>} */ {
+  )/*: {+list: this, +deleted: this} */ {
     const {tree: items, deleted} = splice(
       this._tree,
       start,
@@ -141,11 +141,11 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this.toArray();
   }
 
-  unshift(...values/*: $ReadOnlyArray<T> */)/*: KtList<T> */ {
+  unshift(...values/*: $ReadOnlyArray<T> */)/*: this */ {
     return this._newIfChanged(join2(fromDistinctAscArray(values), this._tree));
   }
 
-  remove(index/*: number */)/*: KtList<T> */ {
+  remove(index/*: number */)/*: this */ {
     return this._newIfChanged(splice(this._tree, index, 1, empty).tree);
   }
 }
