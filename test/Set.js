@@ -86,6 +86,14 @@ test('union', function () {
   const otherSet = new kt.Set([3, 4, 5]);
   const unionSet = set.union(otherSet);
   assert.deepEqual(Array.from(unionSet), [1, 2, 3, 4, 5]);
+
+  assert.deepEqual(
+    Array.from(set.union(otherSet, {
+      cmp: (a, b) => a - b,
+      combiner: (v1, v2) => (v1 + v2) / 2 + 0.5,
+    })),
+    [1, 2, 3.5, 4, 5],
+  );
 });
 
 test('intersection', function () {

@@ -6,6 +6,11 @@ export type SetUpdateOptions<T, K> = {
   onNotFound?: (key: K) => T | symbol;
 };
 
+export type SetUnionOptions<T> = {
+  cmp?: (a: T, b: T) => number,
+  combiner?: (v1: T, v2: T) => T,
+};
+
 declare class KtSet<T> {
   constructor(values?: Iterable<T>);
 
@@ -20,7 +25,7 @@ declare class KtSet<T> {
   remove(value: T): KtSet<T>;
   toArray(): Array<T>;
   toJSON(): Array<T>;
-  union(set: KtSet<T>): KtSet<T>;
+  union(set: KtSet<T>, options?: SetUnionOptions<T>): KtSet<T>;
   intersection(set: KtSet<T>): KtSet<T>;
   difference(set: KtSet<T>): KtSet<T>;
   symmetricDifference(set: KtSet<T>): KtSet<T>;

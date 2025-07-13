@@ -43,6 +43,11 @@ export type SetUpdateOptions<T, K> = {
   +onConflict?: InsertConflictHandler<T, K>,
   +onNotFound?: InsertNotFoundHandler<T, K>,
 };
+
+export type SetUnionOptions<T> = {
+  +cmp?: (a: T, b: T) => number,
+  +combiner?: (v1: T, v2: T) => T,
+};
 */
 
 export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
@@ -158,13 +163,16 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this.toArray();
   }
 
-  union(set/*: KtSet<T> */)/*: this */ {
+  union(
+    set/*: KtSet<T> */,
+    options/*: SetUnionOptions<T> */ = {},
+  )/*: this */ {
     return this._newIfChanged(
       union(
         this._tree,
         set._tree,
-        this.constructor.compareValues,
-        onConflictKeepTreeValue,
+        options.cmp ?? this.constructor.compareValues,
+        options.combiner ?? onConflictKeepTreeValue,
       ),
     );
   }
