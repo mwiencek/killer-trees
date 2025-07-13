@@ -8,10 +8,10 @@ import test from 'node:test';
 import * as kt from '../src/index.js';
 
 /*::
-type RecordType = {
-  +foo: string,
-  +bar: number,
-  +baz: boolean,
+interface RecordType {
+  +foo: string;
+  +bar: number;
+  +baz: boolean;
 };
 */
 
@@ -39,18 +39,17 @@ test('define', () => {
 });
 
 test('constructor', () => {
-  const r1 = TestRecord.instance();
+  const r1 = new TestRecord();
   assert.equal(r1.foo, '');
   assert.equal(r1.bar, 123);
   assert.equal(r1.baz, true);
 
-  const r2 = TestRecord.instance({foo: 'hello', bar: 456});
+  const r2 = new TestRecord({foo: 'hello', bar: 456});
   assert.equal(r2.foo, 'hello');
   assert.equal(r2.bar, 456);
   assert.equal(r2.baz, true);
 
-  // $FlowIgnore[prop-missing]
-  const r3 = TestRecord.instance({unknown: 'value'});
+  const r3 = new TestRecord({unknown: 'value'});
   // $FlowIgnore[incompatible-use]
   assert.equal(r3.unknown, undefined);
 
@@ -64,11 +63,11 @@ test('constructor', () => {
 });
 
 test('size', () => {
-  assert.equal(TestRecord.instance().size, 3);
+  assert.equal(new TestRecord().size, 3);
 });
 
 test('get', () => {
-  const r1 = TestRecord.instance({foo: 'hello'});
+  const r1 = new TestRecord({foo: 'hello'});
   assert.equal(r1.get('foo'), 'hello');
   assert.equal(r1.get('bar'), 123);
 
@@ -82,7 +81,7 @@ test('get', () => {
 });
 
 test('set', () => {
-  const r1 = TestRecord.instance();
+  const r1 = new TestRecord();
   const r2 = r1.set('foo', 'bar');
   assert.equal(r1.foo, '');
   assert.equal(r2.foo, 'bar');
@@ -101,16 +100,16 @@ test('set', () => {
 });
 
 test('equals', () => {
-  const r1 = TestRecord.instance({foo: 'bar'});
-  const r2 = TestRecord.instance({foo: 'bar'});
-  const r3 = TestRecord.instance({foo: 'baz'});
+  const r1 = new TestRecord({foo: 'bar'});
+  const r2 = new TestRecord({foo: 'bar'});
+  const r3 = new TestRecord({foo: 'baz'});
 
   assert.ok(r1.equals(r2));
   assert.ok(!r1.equals(r3));
 });
 
 test('merge', () => {
-  const r1 = TestRecord.instance();
+  const r1 = new TestRecord();
   const r2 = r1.merge({foo: 'baz', bar: 999});
   assert.equal(r1.foo, '');
   assert.equal(r1.bar, 123);
@@ -125,7 +124,7 @@ test('merge', () => {
 });
 
 test('remove', () => {
-  const r1 = TestRecord.instance({foo: 'bar'});
+  const r1 = new TestRecord({foo: 'bar'});
   const r2 = r1.remove('foo');
   assert.equal(r1.foo, 'bar');
   assert.equal(r2.foo, '');
@@ -143,7 +142,7 @@ test('remove', () => {
 });
 
 test('toJSON', () => {
-  const r1 = TestRecord.instance({foo: 'hello', baz: false});
+  const r1 = new TestRecord({foo: 'hello', baz: false});
   assert.deepEqual(r1.toJSON(), {
     foo: 'hello',
     bar: 123,
