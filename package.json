@@ -53,6 +53,6 @@
   },
   "packageManager": "yarn@4.9.2",
   "dependencies": {
-    "weight-balanced-tree": "0.14.1"
+    "weight-balanced-tree": "0.16.0"
   }
 }
