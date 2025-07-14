@@ -13,6 +13,10 @@ import {
 import KtCollection from './Collection.js';
 import {compareStrings} from './utility/compareValues.js';
 
+/*::
+export type KtRecordClass<T: interface {}> = Class<KtRecord<T> & $ReadOnly<T>>;
+*/
+
 const RECORD_SYMBOL = Symbol.for('KtRecord');
 
 function defineGetter/*:: <T: interface {}> */(
@@ -53,7 +57,7 @@ export default class KtRecord/*:: <T: interface {}> */
 
   static define/*:: <T: interface {}> */(
     defaults/*: Required<T> */,
-  )/*: Class<KtRecord<T> & $ReadOnly<T>> */ {
+  )/*: KtRecordClass<T> */ {
     if (this !== KtRecord) {
       throw new Error(
         'Can only define new records using the base class, `KtRecord`.',
