@@ -23,6 +23,8 @@ declare class KtSet<T> {
   add(value: T): KtSet<T>;
   update<K>(options: SetUpdateOptions<T, K>): KtSet<T>;
   remove(value: T): KtSet<T>;
+  minValue(): T;
+  maxValue(): T;
   toArray(): Array<T>;
   toJSON(): Array<T>;
   union(set: KtSet<T>, options?: SetUnionOptions<T>): KtSet<T>;

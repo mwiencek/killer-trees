@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 // $FlowIssue[cannot-resolve-module]
 import test from 'node:test';
+import {EmptyTreeError} from 'weight-balanced-tree/errors';
 import {
   onConflictKeepTreeValue,
   onConflictRemoveValue,
@@ -63,6 +64,20 @@ test('has', function () {
   for (const value of EXOTIC_VALUES) {
     assert.ok(weirdSet.has(value));
   }
+});
+
+test('minValue', function () {
+  assert.equal(set.minValue(), 1);
+
+  const emptySet = new kt.Set/*:: <number> */();
+  assert.throws(() => emptySet.minValue(), EmptyTreeError);
+});
+
+test('maxValue', function () {
+  assert.equal(set.maxValue(), 3);
+
+  const emptySet = new kt.Set/*:: <number> */();
+  assert.throws(() => emptySet.maxValue(), EmptyTreeError);
 });
 
 test('equals', function () {

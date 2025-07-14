@@ -10,6 +10,8 @@ import {
   isSubsetOf,
   isSupersetOf,
   iterate,
+  maxValue,
+  minValue,
   remove,
   symmetricDifference,
   toArray,
@@ -106,6 +108,14 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
       value,
       this.constructor.compareValues,
     );
+  }
+
+  minValue()/*: T */ {
+    return minValue(this._tree);
+  }
+
+  maxValue()/*: T */ {
+    return maxValue(this._tree);
   }
 
   add(value/*: T */)/*: this */ {
