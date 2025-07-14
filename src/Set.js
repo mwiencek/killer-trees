@@ -155,6 +155,18 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this._newIfChanged(values);
   }
 
+  replace(
+    value/*: T */,
+    callback/*: InsertConflictHandler<T, T> */,
+  )/*: this */ {
+    return this.update({
+      key: value,
+      cmp: this.constructor.compareValues,
+      onConflict: callback,
+      onNotFound: onNotFoundDoNothing,
+    });
+  }
+
   remove(value/*: T */)/*: this */ {
     return this._newIfChanged(
       remove(

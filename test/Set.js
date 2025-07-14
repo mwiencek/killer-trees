@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {EmptyTreeError} from 'weight-balanced-tree/errors';
 import {
+  REMOVE_VALUE,
   onConflictKeepTreeValue,
   onConflictRemoveValue,
   onConflictUseGivenValue,
@@ -268,6 +269,22 @@ test('update', function () {
   );
 });
 
+test('replace', function () {
+  const s1 = set.replace(2, (oldValue) => oldValue * 2);
+  assert.deepEqual(Array.from(s1), [1, 3, 4]);
+  assert.notEqual(s1, set);
+
+  const s2 = set.replace(4, () => 8);
+  assert.equal(s2, set);
+
+  const s3 = set.replace(2, () => 2);
+  assert.equal(s3, set);
+
+  const s4 = set.replace(2, () => REMOVE_VALUE);
+  assert.notEqual(s4, set);
+  assert.deepEqual(Array.from(s4), [1, 3]);
+});
+
 test('custom comparator', function () {
   class CaseInsensitiveSet extends kt.Set/*:: <string> */ {
     static compareValues = (a/*: string */, b/*: string */)/*: number */ => {
@@ -285,4 +302,10 @@ test('custom comparator', function () {
 
   const s3 = s2.add('C');
   assert.equal(s3, s2);
+
+  const s4 = s1.replace('a', () => 'A');
+  assert.deepEqual(Array.from(s4), ['A', 'B']);
+
+  const s5 = s1.replace('a', () => 'd');
+  assert.deepEqual(Array.from(s5), ['B', 'd']);
 });
