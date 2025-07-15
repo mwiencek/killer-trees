@@ -23,11 +23,6 @@ declare class KtSet<T> extends KtCollection<T> {
   has(value: T): boolean;
   add(value: T): KtSet<T>;
   update<K>(options: SetUpdateOptions<T, K>): KtSet<T>;
-  updateInRecord<Fields extends (T extends KtRecord<infer U> ? U : never), K extends keyof Fields>(
-    record: T extends KtRecord<unknown> ? T : never,
-    recordKey: K,
-    updater: (existingValue: Fields[K]) => Fields[K],
-  ): this;
   remove(value: T): KtSet<T>;
   minValue(): T;
   maxValue(): T;

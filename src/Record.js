@@ -79,7 +79,7 @@ export default class KtRecord/*:: <+T: interface {}> */
     return Record;
   }
 
-  equals/*:: <U: interface {} = T> */(other/*: KtRecord<U> */)/*: boolean */ {
+  equals/*:: <U: interface {}> */(other/*: KtRecord<U> */)/*: boolean */ {
     return equals(this._tree, other._tree);
   }
 

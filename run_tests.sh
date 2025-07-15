@@ -3,6 +3,7 @@
 node --test test/List.js
 node --test test/Map.js
 node --test test/Record.js
+node --test test/RecordSet.js
 node --test test/Set.js
 node --test test/compareValues.js
 

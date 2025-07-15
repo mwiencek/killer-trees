@@ -33,7 +33,6 @@ import {
 
 /*::
 import invariant from './invariant.js';
-import type KtRecord from './Record.js';
 */
 import KtCollection from './Collection.js';
 import compareValues from './utility/compareValues.js';
@@ -154,20 +153,6 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
       values = this.constructor._add(values, replacement.valueToInsert);
     }
     return this._newIfChanged(values);
-  }
-
-  updateInRecord/*:: <
-    Fields: T extends KtRecord<infer U> ? U : empty,
-    K: $Keys<Fields>,
-  > */(
-    record/*: T extends KtRecord<mixed> ? T : empty */,
-    recordKey/*: K */,
-    updater/*: (existingValue: Fields[K]) => Fields[K] */,
-  )/*: this */ {
-    return this.replace(record, (existingRecord/*: T */)/*: T */ => (
-      // $FlowIgnore[incompatible-use]
-      existingRecord.update(recordKey, updater)
-    ));
   }
 
   replace(

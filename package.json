@@ -26,6 +26,10 @@
       "types": "./types/Record.d.ts",
       "default": "./src/Record.js"
     },
+    "./RecordSet": {
+      "types": "./types/RecordSet.d.ts",
+      "default": "./src/RecordSet.js"
+    },
     "./Set": {
       "types": "./types/Set.d.ts",
       "default": "./src/Set.js"

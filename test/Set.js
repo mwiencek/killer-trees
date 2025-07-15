@@ -269,40 +269,6 @@ test('update', function () {
   );
 });
 
-test('updateInRecord', function () {
-  /*::
-  type RecordType = {+foo: string};
-  */
-
-  const TestRecord = kt.Record.define/*:: <RecordType> */({
-    foo: '',
-  });
-
-  class TestSet extends kt.Set/*:: <TestRecord> */ {
-    static compareValues = (a/*: TestRecord */, b/*: TestRecord */)/*: number */ => {
-      return compareStrings(a.fields.foo, b.fields.foo);
-    };
-  }
-
-  const r1 = new TestRecord({foo: 'a'});
-  const r2 = new TestRecord({foo: 'b'});
-
-  const s1 = new TestSet([r1, r2]);
-  const s2 = s1.updateInRecord(
-    r1,
-    'foo',
-    (existingValue) => existingValue.replace('a', 'c'),
-  );
-
-  assert.deepEqual(
-    Array.from(s2).map((r) => r.toJSON()),
-    [
-      {foo: 'b'},
-      {foo: 'c'},
-    ],
-  );
-});
-
 test('replace', function () {
   const s1 = set.replace(2, (oldValue) => oldValue * 2);
   assert.deepEqual(Array.from(s1), [1, 3, 4]);
