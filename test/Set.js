@@ -55,6 +55,33 @@ test('add', function () {
   assert.equal(sameSet, set);
 });
 
+test('findAllBy', function () {
+  const s1 = new kt.Set([1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(
+    Array.from(s1.findAllBy(value => {
+      if (value < 2) return 1;
+      if (value > 4) return -1;
+      return 0;
+    })),
+    [2, 3, 4],
+  );
+  assert.deepEqual(
+    Array.from(s1.findAllBy(value => value - 4)),
+    [4],
+  );
+  assert.deepEqual(
+    Array.from(s1.findAllBy(value => value - 7)),
+    [],
+  );
+});
+
+test('findBy', function () {
+  const s1 = new kt.Set([1, 2, 3, 4, 5, 6]);
+  assert.equal(s1.findBy(value => value - 4), 4);
+  assert.equal(s1.findBy(value => value - 7), undefined);
+  assert.equal(s1.findBy(value => value - 7, null), null);
+});
+
 test('has', function () {
   assert.ok(set.has(1));
   assert.ok(set.has(2));

@@ -5,6 +5,8 @@ import {
   empty,
   equals,
   exists,
+  findAll,
+  findBy,
   intersection,
   isDisjointFrom,
   isSubsetOf,
@@ -100,6 +102,19 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     isEqual/*:: ?: (a: T, b: T) => boolean */ = Object.is,
   )/*: boolean */ {
     return equals(this._tree, set._tree, isEqual);
+  }
+
+  findAllBy(
+    cmp/*: (treeValue: T) => number */,
+  )/*: Generator<T, void, void> */ {
+    return findAll(this._tree, null, (key, treeValue) => cmp(treeValue));
+  }
+
+  findBy/*:: <D> */(
+    cmp/*: (treeValue: T) => number */,
+    defaultValue/*: D */,
+  )/*: T | D */ {
+    return findBy(this._tree, cmp, defaultValue);
   }
 
   has(value/*: T */)/*: boolean */ {
