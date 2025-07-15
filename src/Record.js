@@ -13,6 +13,10 @@ import {
 import KtCollection from './Collection.js';
 import {compareStrings} from './utility/compareValues.js';
 
+/*::
+export type RecordFields<T> = T extends KtRecord<infer U> ? U : empty;
+*/
+
 const RECORD_SYMBOL = Symbol.for('KtRecord');
 
 export default class KtRecord/*:: <+T: interface {}> */

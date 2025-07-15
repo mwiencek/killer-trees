@@ -4,4 +4,5 @@ export {default as Record} from './Record';
 export {default as RecordSet} from './RecordSet';
 export {default as Set} from './Set';
 export type {MapEntry, MapUpdateOptions} from './Map';
+export type {RecordFields} from './Record';
 export type {SetUpdateOptions} from './Set';
