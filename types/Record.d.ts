@@ -1,9 +1,9 @@
-declare class KtRecord<T extends object> {
+import KtCollection from './Collection';
+
+declare class KtRecord<T extends object> extends KtCollection<unknown> {
   constructor(object?: Partial<T>);
 
   static define<T extends object>(defaults: T): new (object?: Partial<T>) => KtRecord<T>;
-
-  readonly size: number;
 
   equals<U extends object = T>(other: KtRecord<U>): boolean;
   get<K extends keyof T>(key: K): T[K];

@@ -1,3 +1,5 @@
+import KtCollection from './Collection';
+
 export type MapEntry<K, V> = {
   readonly key: K,
   readonly value: V,
@@ -8,10 +10,8 @@ export type MapUpdateOptions<K, V> = {
   onNotFound?: (key: K) => V | symbol;
 };
 
-declare class KtMap<K, V> {
+declare class KtMap<K, V> extends KtCollection<MapEntry<K, V>> {
   constructor(iterable?: Iterable<[K, V]>);
-
-  readonly size: number;
 
   [Symbol.iterator](): Generator<[K, V], void, void>;
   entries(): Generator<[K, V], void, void>;

@@ -1,10 +1,10 @@
-declare class KtList<T> {
+import KtCollection from './Collection';
+
+declare class KtList<T> extends KtCollection<T> {
   constructor(values?: Iterable<T>);
 
   [Symbol.iterator](): Generator<T, void, void>;
   enumerate(): Generator<[number, T], void, void>;
-
-  readonly size: number;
 
   at<D = T>(index: number, defaultValue: D): T | D;
   concat(list: KtList<T>): KtList<T>;

@@ -1,3 +1,5 @@
+import KtCollection from './Collection';
+
 export type SetUpdateOptions<T, K> = {
   key: K;
   cmp: (key: K, treeValue: T) => number;
@@ -11,10 +13,8 @@ export type SetUnionOptions<T> = {
   combiner?: (v1: T, v2: T) => T,
 };
 
-declare class KtSet<T> {
+declare class KtSet<T> extends KtCollection<T> {
   constructor(values?: Iterable<T>);
-
-  readonly size: number;
 
   [Symbol.iterator](): Generator<T, void, void>;
   values(): Generator<T, void, void>;
