@@ -24,7 +24,7 @@ class GetCmd {
 
   run(model, real) {
     const modelResult = model[this.key];
-    const realResult = real.record[this.key];
+    const realResult = real.record.get(this.key);
     assert.equal(modelResult, realResult);
   }
 }

@@ -77,7 +77,7 @@ const createSuite = new Bench({name: 'Record create'})
 const getSuite = new Bench({name: 'Record get'})
   .add('KtRecord (getter)', function () {
     for (const key of defaultKeys) {
-      prebuiltKtRecord[key];
+      prebuiltKtRecord.get(key);
     }
   })
   .add('Immutable.Record (getter)', function () {

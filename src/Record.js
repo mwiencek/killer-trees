@@ -13,19 +13,7 @@ import {
 import KtCollection from './Collection.js';
 import {compareStrings} from './utility/compareValues.js';
 
-/*::
-export type KtRecordClass<T: interface {}> = Class<KtRecord<T> & $ReadOnly<T>>;
-*/
-
 const RECORD_SYMBOL = Symbol.for('KtRecord');
-
-function defineGetter/*:: <T: interface {}> */(
-  index/*: number */
-)/*: (this: KtRecord<T>) => mixed */ {
-  return function (/*:: this: KtRecord<T> */)/*: mixed */ {
-    return at(this._tree, index);
-  };
-}
 
 export default class KtRecord/*:: <T: interface {}> */
   extends KtCollection/*:: <mixed> */ {
@@ -57,7 +45,7 @@ export default class KtRecord/*:: <T: interface {}> */
 
   static define/*:: <T: interface {}> */(
     defaults/*: Required<T> */,
-  )/*: KtRecordClass<T> */ {
+  )/*: Class<KtRecord<T>> */ {
     if (this !== KtRecord) {
       throw new Error(
         'Can only define new records using the base class, `KtRecord`.',
@@ -79,13 +67,6 @@ export default class KtRecord/*:: <T: interface {}> */
 
     for (let index = 0; index < defaultKeys.length; index++) {
       const key = defaultKeys[index];
-      if (Object.hasOwn(this.prototype, key)) {
-        throw new Error(`Can't define the reserved property ${JSON.stringify(key)} on records.`);
-      }
-      Object.defineProperty(Record.prototype, key, {
-        enumerable: true,
-        get: defineGetter/*:: <T> */(index),
-      });
       Record.defaultValues = setIndex(Record.defaultValues, index, defaults[key]);
       Record.keyIndex[key] = index;
     }
@@ -95,7 +76,6 @@ export default class KtRecord/*:: <T: interface {}> */
     Object.freeze(Record.keyIndex);
     Object.defineProperty(Record, RECORD_SYMBOL, {value: true});
 
-    // $FlowIgnore[incompatible-return]
     return Record;
   }
 
@@ -112,7 +92,7 @@ export default class KtRecord/*:: <T: interface {}> */
     return at(this._tree, index);
   }
 
-  merge(object/*: Partial<T> */)/*: this & $ReadOnly<T> */ {
+  merge(object/*: Partial<T> */)/*: this */ {
     let values = this._tree;
     for (const key in object) {
       const index = this.constructor.keyIndex[key];
@@ -126,21 +106,17 @@ export default class KtRecord/*:: <T: interface {}> */
         object[key],
       );
     }
-    // $FlowIgnore[incompatible-return]
     return this._newIfChanged(values);
   }
 
   set/*:: <K: $Keys<T>> */(
     key/*: K */,
     value/*: T[K] */,
-  )/*: this & $ReadOnly<T> */ {
-    // $FlowIgnore[incompatible-return]
+  )/*: this */ {
     const index = this.constructor.keyIndex[key];
     if (index === undefined) {
-      // $FlowIgnore[incompatible-return]
       return this;
     }
-    // $FlowIgnore[incompatible-return]
     return this._newIfChanged(setIndex(this._tree, index, value));
   }
 
@@ -151,7 +127,6 @@ export default class KtRecord/*:: <T: interface {}> */
     // $FlowIgnore[cannot-spread-interface]
     const object = {...defaults};
     for (const key in keyIndex) {
-      // $FlowIgnore[prop-missing]
       object[key] = values[keyIndex[key]];
     }
     return object;
@@ -160,13 +135,11 @@ export default class KtRecord/*:: <T: interface {}> */
   update/*:: <K: $Keys<T>> */(
     key/*: K */,
     updater/*: (existingValue: T[K]) => T[K] */,
-  )/*: this & $ReadOnly<T> */ {
+  )/*: this */ {
     const index = this.constructor.keyIndex[key];
     if (index === undefined) {
-      // $FlowIgnore[incompatible-return]
       return this;
     }
-    // $FlowIgnore[incompatible-return]
     return this._newIfChanged(
       updateIndex(
         this._tree,
@@ -177,7 +150,7 @@ export default class KtRecord/*:: <T: interface {}> */
     );
   }
 
-  remove(key/*: $Keys<T> */)/*: this & $ReadOnly<T> */ {
+  remove(key/*: $Keys<T> */)/*: this */ {
     return this.set(key, this.constructor.defaults[key]);
   }
 }

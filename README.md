@@ -39,29 +39,22 @@ m = m.set('a', 2);
 ## Record
 
 Records have a fixed set of properties, defined with `Record.define`.
-They're stored more efficiently than maps and provide getters to read
-properties easily.
+They're stored more efficiently than maps and type-checked against
+a specific object type.
 
 ```TypeScript
 import Record from 'killer-trees/Record';
 
-interface IPoint {
-  x: number;
-  y: number;
-}
+type IPoint = {
+  x: number,
+  y: number,
+};
 
 const Point = Record.define<IPoint>({x: 0, y: 0});
 let p = new Point({x: 10});
-p.x; // 10
+p.get('x'); // 10
 p = p.set('x', 20);
 ```
-
-Note: The type parameter passed to `define` should be an `interface`, not an
-object type, otherwise Flow will behave weirdly if you do
-`new Point({x: 'oops'})`; unknown or mistyped properties would cause the
-instance type to be `empty`. A downside to this is that interfaces can't be
-exact, so calling the constructor with unknown properties won't trigger an
-error.
 
 [Record API](https://github.com/mwiencek/killer-trees/blob/master/types/Record.d.ts).
 
