@@ -15,7 +15,7 @@ import {compareStrings} from './utility/compareValues.js';
 
 const RECORD_SYMBOL = Symbol.for('KtRecord');
 
-export default class KtRecord/*:: <T: interface {}> */
+export default class KtRecord/*:: <+T: interface {}> */
   extends KtCollection/*:: <mixed> */ {
   /*::
   static defaults: $ReadOnly<T>;
