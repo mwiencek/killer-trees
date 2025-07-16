@@ -24,13 +24,13 @@ declare class KtMap<K, V> extends KtCollection<MapEntry<K, V>> {
   ): boolean;
   get<D>(key: K, defaultValue: D): V | D;
   has(key: K): boolean;
-  set(key: K, value: V): KtMap<K, V>;
+  set(key: K, value: V): this;
   merge(
     map: KtMap<K, V>,
     combiner?: (entry1: MapEntry<K, V>, entry2: MapEntry<K, V>) => MapEntry<K, V>
-  ): KtMap<K, V>;
-  update(key: K, options: MapUpdateOptions<K, V>): KtMap<K, V>;
-  remove(key: K): KtMap<K, V>;
+  ): this;
+  update(key: K, options: MapUpdateOptions<K, V>): this;
+  remove(key: K): this;
 }
 
 export default KtMap;

@@ -1,3 +1,10 @@
+import type {
+  DoNothing,
+  RemoveValue,
+  InsertConflictHandler,
+  InsertNotFoundHandler,
+} from 'weight-balanced-tree/update';
+
 import KtCollection from './Collection';
 import type KtRecord from './Record';
 
@@ -5,8 +12,8 @@ export type SetUpdateOptions<T, K> = {
   key: K;
   cmp: (key: K, treeValue: T) => number;
   isEqual?: (a: T, b: T) => boolean;
-  onConflict?: (existingValue: T, key: K) => T | symbol;
-  onNotFound?: (key: K) => T | symbol;
+  onConflict?: (existingValue: T, key: K) => T | RemoveValue;
+  onNotFound?: (key: K) => T | DoNothing;
 };
 
 export type SetUnionOptions<T> = {
@@ -21,17 +28,26 @@ declare class KtSet<T> extends KtCollection<T> {
   values(): Generator<T, void, void>;
   equals(set: KtSet<T>, isEqual?: (a: T, b: T) => boolean): boolean;
   has(value: T): boolean;
-  add(value: T): KtSet<T>;
-  update<K>(options: SetUpdateOptions<T, K>): KtSet<T>;
-  remove(value: T): KtSet<T>;
+  add(value: T): this;
+  update<K>(options: SetUpdateOptions<T, K>): this;
+  mergeValue(
+    value: T,
+    onConflict: InsertConflictHandler<T, T>,
+    onNotFound: InsertNotFoundHandler<T, T>,
+  ): this;
+  replace(
+    value: T,
+    callback: InsertConflictHandler<T, T>,
+  ): this;
+  remove(value: T): this;
   minValue(): T;
   maxValue(): T;
   toArray(): Array<T>;
   toJSON(): Array<T>;
-  union(set: KtSet<T>, options?: SetUnionOptions<T>): KtSet<T>;
-  intersection(set: KtSet<T>): KtSet<T>;
-  difference(set: KtSet<T>): KtSet<T>;
-  symmetricDifference(set: KtSet<T>): KtSet<T>;
+  union(set: KtSet<T>, options?: SetUnionOptions<T>): this;
+  intersection(set: KtSet<T>): this;
+  difference(set: KtSet<T>): this;
+  symmetricDifference(set: KtSet<T>): this;
   isDisjointFrom(set: KtSet<T>): boolean;
   isSubsetOf(set: KtSet<T>): boolean;
   isSupersetOf(set: KtSet<T>): boolean;
