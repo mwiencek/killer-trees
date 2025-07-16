@@ -99,30 +99,29 @@ export default class KtRecord/*:: <T: interface {}> */
     return Record;
   }
 
-  static _getIndexForKey/*:: <T: interface {}> */(key/*: $Keys<T> */)/*: number */ {
-    const index = this.keyIndex[key];
-    if (index === undefined) {
-      throw new Error(`Undefined record key ${JSON.stringify(key)}.`);
-    }
-    return index;
-  }
-
   equals/*:: <U: interface {} = T> */(other/*: KtRecord<U> */)/*: boolean */ {
     return equals(this._tree, other._tree);
   }
 
   get/*:: <K: $Keys<T>> */(key/*: K */)/*: T[K] */ {
+    const index = this.constructor.keyIndex[key];
+    if (index === undefined) {
+      throw new Error(`Undefined record key ${JSON.stringify(key)}.`);
+    }
     // $FlowIgnore[incompatible-return]
-    return at(this._tree, this.constructor._getIndexForKey(key));
+    return at(this._tree, index);
   }
 
   merge(object/*: Partial<T> */)/*: this & $ReadOnly<T> */ {
     let values = this._tree;
     for (const key in object) {
+      const index = this.constructor.keyIndex[key];
+      if (index === undefined) {
+        continue;
+      }
       values = setIndex(
         values,
-        // $FlowIgnore[prop-missing]
-        this.constructor._getIndexForKey(key),
+        index,
         // $FlowIssue[prop-missing]
         object[key],
       );
@@ -136,9 +135,13 @@ export default class KtRecord/*:: <T: interface {}> */
     value/*: T[K] */,
   )/*: this & $ReadOnly<T> */ {
     // $FlowIgnore[incompatible-return]
-    return this._newIfChanged(
-      setIndex(this._tree, this.constructor._getIndexForKey(key), value),
-    );
+    const index = this.constructor.keyIndex[key];
+    if (index === undefined) {
+      // $FlowIgnore[incompatible-return]
+      return this;
+    }
+    // $FlowIgnore[incompatible-return]
+    return this._newIfChanged(setIndex(this._tree, index, value));
   }
 
   toJSON()/*: T */ {
@@ -158,11 +161,16 @@ export default class KtRecord/*:: <T: interface {}> */
     key/*: K */,
     updater/*: (existingValue: T[K]) => T[K] */,
   )/*: this & $ReadOnly<T> */ {
+    const index = this.constructor.keyIndex[key];
+    if (index === undefined) {
+      // $FlowIgnore[incompatible-return]
+      return this;
+    }
     // $FlowIgnore[incompatible-return]
     return this._newIfChanged(
       updateIndex(
         this._tree,
-        this.constructor._getIndexForKey(key),
+        index,
         // $FlowIgnore[incompatible-call]
         updater,
       ),

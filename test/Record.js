@@ -90,13 +90,9 @@ test('set', () => {
   const r3 = r2.set('foo', 'bar');
   assert.equal(r2, r3);
 
-  assert.throws(() => {
-    // $FlowIgnore[incompatible-call]
-    r1.set('unknown', 'value');
-  }, {
-    name: 'Error',
-    message: 'Undefined record key "unknown".',
-  });
+  // $FlowIgnore[incompatible-call]
+  const r4 = r1.set('unknown', 'value');
+  assert.equal(r4, r1);
 });
 
 test('update', () => {
@@ -114,13 +110,9 @@ test('update', () => {
   assert.equal(r4.foo, 'barbar');
   assert.notEqual(r2, r4);
 
-  assert.throws(() => {
-    // $FlowIgnore[incompatible-call]
-    r1.set('unknown', 'value');
-  }, {
-    name: 'Error',
-    message: 'Undefined record key "unknown".',
-  });
+  // $FlowIgnore[incompatible-call]
+  const r5 = r1.update('unknown', () => 'value');
+  assert.equal(r5, r1);
 });
 
 test('equals', () => {
@@ -140,7 +132,7 @@ test('merge', () => {
   assert.equal(r2.foo, 'baz');
   assert.equal(r2.bar, 999);
 
-  const r3 = r2.merge({foo: 'baz'});
+  const r3 = r2.merge({foo: 'baz', unknown: 'value'});
   assert.equal(r2, r3);
 
   const r4 = r2.merge({});
@@ -156,13 +148,9 @@ test('remove', () => {
   const r3 = r2.remove('foo');
   assert.equal(r2, r3);
 
-  assert.throws(() => {
-    // $FlowIgnore[incompatible-call]
-    r1.remove('unknown');
-  }, {
-    name: 'Error',
-    message: 'Undefined record key "unknown".',
-  });
+  // $FlowIgnore[incompatible-call]
+  const r4 = r1.remove('unknown');
+  assert.equal(r4, r1);
 });
 
 test('toJSON', () => {
