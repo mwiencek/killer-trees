@@ -186,7 +186,7 @@ test('toJSON', () => {
   assert.deepEqual(set.toJSON(), [1, 2, 3]);
 });
 
-test('update', function () {
+test('updateByKey', function () {
   /*::
   type KV = {+key: number, +value: string};
   */
@@ -209,7 +209,7 @@ test('update', function () {
     {key: 3, value: 'c'},
   ]);
   // Keep existing value (custom key type)
-  let objectSet2 = objectSet.update({
+  let objectSet2 = objectSet.updateByKey({
     key: 2,
     cmp: compareKeyWithObjectKey,
     onConflict: onConflictKeepTreeValue,
@@ -217,7 +217,7 @@ test('update', function () {
   assert.equal(objectSet2, objectSet);
 
   // Keep existing value (custom key type, custom isEqual)
-  objectSet2 = objectSet.update({
+  objectSet2 = objectSet.updateByKey({
     key: 2,
     cmp: compareKeyWithObjectKey,
     isEqual: (a, b) => a.value === b.value,
@@ -226,7 +226,7 @@ test('update', function () {
   assert.equal(objectSet2, objectSet);
 
   // Update existing value (custom key type, custom isEqual)
-  objectSet2 = objectSet.update({
+  objectSet2 = objectSet.updateByKey({
     key: 2,
     cmp: compareKeyWithObjectKey,
     isEqual: (a, b) => a.value === b.value,
@@ -240,7 +240,7 @@ test('update', function () {
   ]);
 
   // Replace existing value (custom key type, different key)
-  objectSet2 = objectSet.update({
+  objectSet2 = objectSet.updateByKey({
     key: 2,
     cmp: compareKeyWithObjectKey,
     isEqual: (a, b) => a.value === b.value,
@@ -257,7 +257,7 @@ test('update', function () {
   ]);
 
   // Update non-existing value
-  objectSet2 = objectSet.update({
+  objectSet2 = objectSet.updateByKey({
     key: {key: 4, value: 'd'},
     cmp: KVSet.compareValues,
     onNotFound: onNotFoundUseGivenValue,
@@ -273,7 +273,7 @@ test('update', function () {
   );
 
   // No change
-  objectSet2 = objectSet.update({
+  objectSet2 = objectSet.updateByKey({
     key: {key: 2, value: 'b'},
     cmp: KVSet.compareValues,
     isEqual: (a, b) => a.value === b.value,
@@ -282,7 +282,7 @@ test('update', function () {
   assert.equal(objectSet2, objectSet);
 
   // Removal
-  objectSet2 = objectSet.update({
+  objectSet2 = objectSet.updateByKey({
     key: {key: 2, value: 'b'},
     cmp: KVSet.compareValues,
     onConflict: onConflictRemoveValue,

@@ -29,7 +29,7 @@ declare class KtSet<T> extends KtCollection<T> {
   equals(set: KtSet<T>, isEqual?: (a: T, b: T) => boolean): boolean;
   has(value: T): boolean;
   add(value: T): this;
-  update<K>(options: SetUpdateOptions<T, K>): this;
+  updateByKey<K>(options: SetUpdateOptions<T, K>): this;
   mergeValue(
     value: T,
     onConflict: InsertConflictHandler<T, T>,

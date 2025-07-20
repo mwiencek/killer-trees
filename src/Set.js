@@ -137,7 +137,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this._newIfChanged(this.constructor._add(this._tree, value));
   }
 
-  update/*:: <K> */({
+  updateByKey/*:: <K> */({
     key,
     cmp,
     // $FlowIssue[method-unbinding]
@@ -175,7 +175,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     onConflict/*: InsertConflictHandler<T, T> */,
     onNotFound/*: InsertNotFoundHandler<T, T> */,
   )/*: this */ {
-    return this.update({
+    return this.updateByKey({
       key: value,
       cmp: this.constructor.compareValues,
       onConflict,
