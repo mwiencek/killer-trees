@@ -170,7 +170,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this._newIfChanged(values);
   }
 
-  mergeValue(
+  update(
     value/*: T */,
     onConflict/*: InsertConflictHandler<T, T> */,
     onNotFound/*: InsertNotFoundHandler<T, T> */,
@@ -187,7 +187,7 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     value/*: T */,
     callback/*: InsertConflictHandler<T, T> */,
   )/*: this */ {
-    return this.mergeValue(value, callback, onNotFoundDoNothing);
+    return this.update(value, callback, onNotFoundDoNothing);
   }
 
   remove(value/*: T */)/*: this */ {

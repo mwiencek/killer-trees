@@ -30,7 +30,7 @@ declare class KtSet<T> extends KtCollection<T> {
   has(value: T): boolean;
   add(value: T): this;
   updateByKey<K>(options: SetUpdateOptions<T, K>): this;
-  mergeValue(
+  update(
     value: T,
     onConflict: InsertConflictHandler<T, T>,
     onNotFound: InsertNotFoundHandler<T, T>,
