@@ -5,6 +5,7 @@ import {
   empty,
   equals,
   exists,
+  filter,
   findAll,
   findBy,
   intersection,
@@ -102,6 +103,10 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     isEqual/*:: ?: (a: T, b: T) => boolean */ = Object.is,
   )/*: boolean */ {
     return equals(this._tree, set._tree, isEqual);
+  }
+
+  filter(predicate/*: (value: T) => boolean */)/*: this */ {
+    return this._newIfChanged(filter(this._tree, predicate));
   }
 
   findAllBy(

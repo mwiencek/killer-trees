@@ -3,6 +3,7 @@
 import {
   equals,
   exists,
+  filter,
   find,
   fromDistinctAscArray,
   iterate,
@@ -176,6 +177,10 @@ export default class KtMap/*:: <K, V> */
     ) => boolean */ = areMapEntriesEqual,
   )/*: boolean */ {
     return equals(this._tree, map._tree, isEqual);
+  }
+
+  filter(predicate/*: (entry: MapEntry<K, V>) => boolean */)/*: this */ {
+    return this._newIfChanged(filter(this._tree, predicate));
   }
 
   get/*:: <D> */(key/*: K */, defaultValue/*: D */)/*: V | D */ {

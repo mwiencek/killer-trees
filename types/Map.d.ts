@@ -22,6 +22,7 @@ declare class KtMap<K, V> extends KtCollection<MapEntry<K, V>> {
     map: KtMap<K, V>,
     isEqual?: (a: MapEntry<K, V>, b: MapEntry<K, V>) => boolean
   ): boolean;
+  filter(predicate: (entry: MapEntry<K, V>) => boolean): this;
   get<D>(key: K, defaultValue: D): V | D;
   has(key: K): boolean;
   set(key: K, value: V): this;

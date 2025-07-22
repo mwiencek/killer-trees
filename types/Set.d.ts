@@ -27,6 +27,7 @@ declare class KtSet<T> extends KtCollection<T> {
   [Symbol.iterator](): Generator<T, void, void>;
   values(): Generator<T, void, void>;
   equals(set: KtSet<T>, isEqual?: (a: T, b: T) => boolean): boolean;
+  filter(predicate: (value: T) => boolean): this;
   has(value: T): boolean;
   add(value: T): this;
   updateByKey<K>(options: SetUpdateOptions<T, K>): this;

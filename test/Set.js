@@ -182,6 +182,11 @@ test('isDisjointFrom', function () {
   assert.ok(s1.isDisjointFrom(new kt.Set()));
 });
 
+test('filter', function () {
+  assert.deepEqual(set.filter(x => x % 2 === 0).toArray(), [2]);
+  assert.deepEqual(set.filter(x => x % 2 !== 0).toArray(), [1, 3]);
+});
+
 test('toJSON', () => {
   assert.deepEqual(set.toJSON(), [1, 2, 3]);
 });

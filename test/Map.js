@@ -36,6 +36,11 @@ test('size', function () {
   assert.equal(map.size, 3);
 });
 
+test('filter', function () {
+  assert.deepEqual(Array.from(map.filter(({key}) => key !== 'b')), [['a', 1], ['c', 3]]);
+  assert.deepEqual(Array.from(map.filter(({value}) => value % 2 === 0)), [['b', 2]]);
+});
+
 test('iterator', function () {
   assert.deepEqual(Array.from(map), [['a', 1], ['b', 2], ['c', 3]]);
   assert.deepEqual(Array.from(map.entries()), [['a', 1], ['b', 2], ['c', 3]]);
