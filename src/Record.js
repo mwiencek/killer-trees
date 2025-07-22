@@ -22,9 +22,9 @@ const RECORD_SYMBOL = Symbol.for('KtRecord');
 export default class KtRecord/*:: <+T: interface {}> */
   extends KtCollection/*:: <mixed> */ {
   /*::
-  static defaults: $ReadOnly<T>;
-  static defaultKeys: $ReadOnlyArray<$Keys<T>>;
-  static defaultValues: ImmutableTree<$Values<T>>;
+  static defaults: {__proto__: null, +[key: string]: mixed};
+  static defaultKeys: $ReadOnlyArray<string>;
+  static defaultValues: ImmutableTree<mixed>;
   static keyIndex: {__proto__: null, +[key: string]: number};
   */
 
@@ -41,6 +41,7 @@ export default class KtRecord/*:: <+T: interface {}> */
     for (let index = 0; index < defaultKeys.length; index++) {
       const key = defaultKeys[index];
       valuesArray[index] = (object != null && Object.hasOwn(object, key))
+          // $FlowIgnore[prop-missing]
           ? object[key]
           : defaults[key];
     }
@@ -48,22 +49,26 @@ export default class KtRecord/*:: <+T: interface {}> */
   }
 
   static define/*:: <T: interface {}> */(
-    defaults/*: Required<T> */,
+    passedDefaults/*: Required<T> */,
   )/*: Class<KtRecord<T>> */ {
     if (this !== KtRecord) {
       throw new Error(
         'Can only define new records using the base class, `KtRecord`.',
       );
     }
-    Object.freeze(defaults);
+
+    const defaults/*: typeof KtRecord.defaults */ = Object.freeze(
+      // $FlowIgnore[unsafe-object-assign]
+      Object.assign(Object.create(null), passedDefaults),
+    );
 
     const defaultKeys = Object.keys(defaults).sort(compareStrings);
 
     // $FlowIssue[invalid-extends]
     class Record extends this {
-      static defaults/*: T */ = defaults;
-      static defaultKeys/*: $ReadOnlyArray<$Keys<T>> */ = defaultKeys;
-      static defaultValues/*: ImmutableTree<$Values<T>> */ = fromDistinctAscArray(
+      static defaults/*: typeof KtRecord.defaults */ = defaults;
+      static defaultKeys/*: $ReadOnlyArray<string> */ = defaultKeys;
+      static defaultValues/*: ImmutableTree<mixed> */ = fromDistinctAscArray(
         new Array(defaultKeys.length),
       );
       static keyIndex/*: typeof KtRecord.keyIndex */ = Object.create(null);
@@ -72,6 +77,7 @@ export default class KtRecord/*:: <+T: interface {}> */
     for (let index = 0; index < defaultKeys.length; index++) {
       const key = defaultKeys[index];
       Record.defaultValues = setIndex(Record.defaultValues, index, defaults[key]);
+      // $FlowIgnore[cannot-write]
       Record.keyIndex[key] = index;
     }
 
@@ -113,10 +119,6 @@ export default class KtRecord/*:: <+T: interface {}> */
     return this._newIfChanged(values);
   }
 
-  remove(key/*: $Keys<T> */)/*: this */ {
-    return this.set(key, this.constructor.defaults[key]);
-  }
-
   set/*:: <K: $Keys<T>> */(
     key/*: K */,
     value/*: T[K] */,
@@ -132,11 +134,11 @@ export default class KtRecord/*:: <+T: interface {}> */
     const defaults = this.constructor.defaults;
     const keyIndex = this.constructor.keyIndex;
     const values = toArray(this._tree);
-    // $FlowIgnore[cannot-spread-interface]
     const object = {...defaults};
     for (const key in keyIndex) {
       object[key] = values[keyIndex[key]];
     }
+    // $FlowIgnore[incompatible-return]
     return object;
   }
 
@@ -156,5 +158,9 @@ export default class KtRecord/*:: <+T: interface {}> */
         updater,
       ),
     );
+  }
+
+  remove(key/*: $Keys<T> */)/*: this */ {
+    return this.set(key, this.constructor.defaults[key]);
   }
 }
