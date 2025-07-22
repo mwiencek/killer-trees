@@ -24,7 +24,6 @@ export default class KtRecord/*:: <+T: interface {}> */
   /*::
   static defaults: {__proto__: null, +[key: string]: mixed};
   static defaultKeys: $ReadOnlyArray<string>;
-  static defaultValues: ImmutableTree<mixed>;
   static keyIndex: {__proto__: null, +[key: string]: number};
   */
 
@@ -68,21 +67,16 @@ export default class KtRecord/*:: <+T: interface {}> */
     class Record extends this {
       static defaults/*: typeof KtRecord.defaults */ = defaults;
       static defaultKeys/*: $ReadOnlyArray<string> */ = defaultKeys;
-      static defaultValues/*: ImmutableTree<mixed> */ = fromDistinctAscArray(
-        new Array(defaultKeys.length),
-      );
       static keyIndex/*: typeof KtRecord.keyIndex */ = Object.create(null);
     }
 
     for (let index = 0; index < defaultKeys.length; index++) {
       const key = defaultKeys[index];
-      Record.defaultValues = setIndex(Record.defaultValues, index, defaults[key]);
       // $FlowIgnore[cannot-write]
       Record.keyIndex[key] = index;
     }
 
     Object.freeze(Record.defaultKeys);
-    Object.freeze(Record.defaultValues);
     Object.freeze(Record.keyIndex);
     Object.defineProperty(Record, RECORD_SYMBOL, {value: true});
 
