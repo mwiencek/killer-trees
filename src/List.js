@@ -18,8 +18,6 @@ import {
   toArray,
   /*:: type ImmutableTree, */
 } from 'weight-balanced-tree';
-/*::
-*/
 
 import KtCollection from './Collection.js';
 
@@ -100,6 +98,10 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this._newIfChanged(items);
   }
 
+  remove(index/*: number */)/*: this */ {
+    return this._newIfChanged(splice(this._tree, index, 1, empty).tree);
+  }
+
   set(index/*: number */, value/*: T */)/*: this */ {
     return this._newIfChanged(setIndex(this._tree, index, value));
   }
@@ -143,9 +145,5 @@ export default class KtList/*:: <T> */ extends KtCollection/*:: <T> */ {
 
   unshift(...values/*: $ReadOnlyArray<T> */)/*: this */ {
     return this._newIfChanged(join2(fromDistinctAscArray(values), this._tree));
-  }
-
-  remove(index/*: number */)/*: this */ {
-    return this._newIfChanged(splice(this._tree, index, 1, empty).tree);
   }
 }

@@ -97,6 +97,20 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     return this.values();
   }
 
+  add(value/*: T */)/*: this */ {
+    return this._newIfChanged(this.constructor._add(this._tree, value));
+  }
+
+  difference(set/*: KtSet<T> */)/*: this */ {
+    return this._newIfChanged(
+      difference(
+        this._tree,
+        set._tree,
+        this.constructor.compareValues,
+      ),
+    );
+  }
+
   equals(
     set/*: KtSet<T> */,
     // $FlowIssue[method-unbinding]
@@ -130,16 +144,108 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
     );
   }
 
-  minValue()/*: T */ {
-    return minValue(this._tree);
+  intersection(set/*: KtSet<T> */)/*: this */ {
+    return this._newIfChanged(
+      intersection(
+        this._tree,
+        set._tree,
+        this.constructor.compareValues,
+      ),
+    );
+  }
+
+  isDisjointFrom(set/*: KtSet<T> */)/*: boolean */ {
+    return isDisjointFrom(
+      this._tree,
+      set._tree,
+      this.constructor.compareValues,
+    );
+  }
+
+  isSubsetOf(set/*: KtSet<T> */)/*: boolean */ {
+    return isSubsetOf(
+      this._tree,
+      set._tree,
+      this.constructor.compareValues,
+    );
+  }
+
+  isSupersetOf(set/*: KtSet<T> */)/*: boolean */ {
+    return isSupersetOf(
+      this._tree,
+      set._tree,
+      this.constructor.compareValues,
+    );
   }
 
   maxValue()/*: T */ {
     return maxValue(this._tree);
   }
 
-  add(value/*: T */)/*: this */ {
-    return this._newIfChanged(this.constructor._add(this._tree, value));
+  minValue()/*: T */ {
+    return minValue(this._tree);
+  }
+
+  remove(value/*: T */)/*: this */ {
+    return this._newIfChanged(
+      remove(
+        this._tree,
+        value,
+        this.constructor.compareValues,
+      ),
+    );
+  }
+
+  replace(
+    value/*: T */,
+    callback/*: InsertConflictHandler<T, T> */,
+  )/*: this */ {
+    return this.update(value, callback, onNotFoundDoNothing);
+  }
+
+  symmetricDifference(set/*: KtSet<T> */)/*: this */ {
+    return this._newIfChanged(
+      symmetricDifference(
+        this._tree,
+        set._tree,
+        this.constructor.compareValues,
+      ),
+    );
+  }
+
+  toArray()/*: Array<T> */ {
+    return toArray(this._tree);
+  }
+
+  toJSON()/*: Array<T> */ {
+    return this.toArray();
+  }
+
+  update(
+    value/*: T */,
+    onConflict/*: InsertConflictHandler<T, T> */,
+    onNotFound/*: InsertNotFoundHandler<T, T> */,
+  )/*: this */ {
+    return this.updateByKey({
+      key: value,
+      cmp: this.constructor.compareValues,
+      onConflict,
+      onNotFound,
+    });
+  }
+
+  union(
+    set/*: KtSet<T> */,
+    options/*: SetUnionOptions<T> */ = {},
+  )/*: this */ {
+    return this._newIfChanged(
+      union(
+        this._tree,
+        set._tree,
+        options.cmp ?? this.constructor.compareValues,
+        options.combiner ?? onConflictKeepTreeValue,
+      ),
+    );
   }
 
   updateByKey/*:: <K> */({
@@ -173,111 +279,5 @@ export default class KtSet/*:: <T> */ extends KtCollection/*:: <T> */ {
       values = this.constructor._add(values, replacement.valueToInsert);
     }
     return this._newIfChanged(values);
-  }
-
-  update(
-    value/*: T */,
-    onConflict/*: InsertConflictHandler<T, T> */,
-    onNotFound/*: InsertNotFoundHandler<T, T> */,
-  )/*: this */ {
-    return this.updateByKey({
-      key: value,
-      cmp: this.constructor.compareValues,
-      onConflict,
-      onNotFound,
-    });
-  }
-
-  replace(
-    value/*: T */,
-    callback/*: InsertConflictHandler<T, T> */,
-  )/*: this */ {
-    return this.update(value, callback, onNotFoundDoNothing);
-  }
-
-  remove(value/*: T */)/*: this */ {
-    return this._newIfChanged(
-      remove(
-        this._tree,
-        value,
-        this.constructor.compareValues,
-      ),
-    );
-  }
-
-  toArray()/*: Array<T> */ {
-    return toArray(this._tree);
-  }
-
-  toJSON()/*: Array<T> */ {
-    return this.toArray();
-  }
-
-  union(
-    set/*: KtSet<T> */,
-    options/*: SetUnionOptions<T> */ = {},
-  )/*: this */ {
-    return this._newIfChanged(
-      union(
-        this._tree,
-        set._tree,
-        options.cmp ?? this.constructor.compareValues,
-        options.combiner ?? onConflictKeepTreeValue,
-      ),
-    );
-  }
-
-  intersection(set/*: KtSet<T> */)/*: this */ {
-    return this._newIfChanged(
-      intersection(
-        this._tree,
-        set._tree,
-        this.constructor.compareValues,
-      ),
-    );
-  }
-
-  difference(set/*: KtSet<T> */)/*: this */ {
-    return this._newIfChanged(
-      difference(
-        this._tree,
-        set._tree,
-        this.constructor.compareValues,
-      ),
-    );
-  }
-
-  symmetricDifference(set/*: KtSet<T> */)/*: this */ {
-    return this._newIfChanged(
-      symmetricDifference(
-        this._tree,
-        set._tree,
-        this.constructor.compareValues,
-      ),
-    );
-  }
-
-  isSubsetOf(set/*: KtSet<T> */)/*: boolean */ {
-    return isSubsetOf(
-      this._tree,
-      set._tree,
-      this.constructor.compareValues,
-    );
-  }
-
-  isSupersetOf(set/*: KtSet<T> */)/*: boolean */ {
-    return isSupersetOf(
-      this._tree,
-      set._tree,
-      this.constructor.compareValues,
-    );
-  }
-
-  isDisjointFrom(set/*: KtSet<T> */)/*: boolean */ {
-    return isDisjointFrom(
-      this._tree,
-      set._tree,
-      this.constructor.compareValues,
-    );
   }
 }

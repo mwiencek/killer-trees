@@ -195,18 +195,6 @@ export default class KtMap/*:: <K, V> */
     return exists(this._tree, key, compareKeyWithMapEntry);
   }
 
-  set(key/*: K */, value/*: V */)/*: this */ {
-    return this._newIfChanged(
-      update(this._tree, {
-        key: {key, value},
-        cmp: compareMapEntries,
-        onConflict: onConflictUseGivenValue,
-        onNotFound: onNotFoundUseGivenValue,
-        isEqual: areMapValuesEqual,
-      }),
-    );
-  }
-
   merge(
     map/*: KtMap<K, V> */,
     combiner/*: (
@@ -224,6 +212,28 @@ export default class KtMap/*:: <K, V> */
     );
   }
 
+  remove(key/*: K */)/*: this */ {
+    return this._newIfChanged(
+      remove(
+        this._tree,
+        key,
+        compareKeyWithMapEntry,
+      ),
+    );
+  }
+
+  set(key/*: K */, value/*: V */)/*: this */ {
+    return this._newIfChanged(
+      update(this._tree, {
+        key: {key, value},
+        cmp: compareMapEntries,
+        onConflict: onConflictUseGivenValue,
+        onNotFound: onNotFoundUseGivenValue,
+        isEqual: areMapValuesEqual,
+      }),
+    );
+  }
+
   update(key/*: K */, {
     onConflict = onConflictKeepTreeValue,
     onNotFound = onNotFoundDoNothing,
@@ -236,16 +246,6 @@ export default class KtMap/*:: <K, V> */
         onConflict: wrapUpdateOnConflict(onConflict),
         onNotFound: wrapUpdateOnNotFound(onNotFound),
       }),
-    );
-  }
-
-  remove(key/*: K */)/*: this */ {
-    return this._newIfChanged(
-      remove(
-        this._tree,
-        key,
-        compareKeyWithMapEntry,
-      ),
     );
   }
 }

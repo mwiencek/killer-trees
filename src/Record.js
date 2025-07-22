@@ -113,6 +113,10 @@ export default class KtRecord/*:: <+T: interface {}> */
     return this._newIfChanged(values);
   }
 
+  remove(key/*: $Keys<T> */)/*: this */ {
+    return this.set(key, this.constructor.defaults[key]);
+  }
+
   set/*:: <K: $Keys<T>> */(
     key/*: K */,
     value/*: T[K] */,
@@ -152,9 +156,5 @@ export default class KtRecord/*:: <+T: interface {}> */
         updater,
       ),
     );
-  }
-
-  remove(key/*: $Keys<T> */)/*: this */ {
-    return this.set(key, this.constructor.defaults[key]);
   }
 }
