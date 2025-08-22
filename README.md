@@ -4,7 +4,7 @@ A collection of immutable data structures, providing a thin wrapper around
 the [weight-balanced-tree](https://www.npmjs.com/package/weight-balanced-tree)
 package. These offer a more JavaScript-y, class-based API.
 
-Gets/sets/deletes are `O(log n)` for all structures.
+Gets/sets/deletes are `O(log n)` for List, Map, and Set.
 
 ## List
 
@@ -41,6 +41,12 @@ m = m.set('a', 2);
 Records have a fixed set of properties, defined with `Record.define`.
 They're stored more efficiently than maps and type-checked against
 a specific object type.
+
+Records are currently implemented by storing values as an array, rather than
+a tree internally. That means gets are `O(1)`, and sets/deletes are `O(n)`,
+where `n` is the number of values in the record. Copying an array for small
+values of `n` is extremely fast and exhibits less GC pressure than updating
+a persistent tree.
 
 ```TypeScript
 import Record from 'killer-trees/Record';

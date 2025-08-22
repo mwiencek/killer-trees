@@ -1,6 +1,6 @@
-import KtCollection from './Collection';
+declare class KtRecord<T extends object> {
+  readonly size: number;
 
-declare class KtRecord<T extends object> extends KtCollection<unknown> {
   constructor(object?: Partial<T>);
 
   static define<T extends object>(defaults: T): new (object?: Partial<T>) => KtRecord<T>;
