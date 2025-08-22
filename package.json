@@ -1,6 +1,6 @@
 {
   "name": "killer-trees",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Immutable collections based on weight-balanced trees.",
   "keywords": [
     "weight balanced tree",
